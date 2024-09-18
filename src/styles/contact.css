@@ -1,0 +1,24 @@
+/* src/app/contact/contact.css */
+
+/* Style global pour la page de contact */
+.contact-page {
+    height: 100vh;
+    padding: 50px;
+    color: #E9B1A2;
+  }
+  
+  /* Style pour l'en-tête de la page de contact */
+  .contact-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .contact-header h1 {
+    font-size: 2.5em;
+    color: #be87a4;
+  }
+  
+  .imgMargot{
+    height: 40rem;
+    width: 40rem;
+  }

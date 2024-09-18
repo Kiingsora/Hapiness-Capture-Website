@@ -1,0 +1,39 @@
+/* app/services/Services.module.css */
+
+.servicesContainer {
+    padding: 40px;
+    background-color: #f8f4f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pageTitle {
+    font-size: 2.5rem;
+    color: #c85a5a;
+    margin-bottom: 30px;
+  }
+  
+  .servicesTable {
+    width: 80%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 1.2rem;
+  }
+  
+  .servicesTable th {
+    background-color: #f1d1d1;
+    padding: 10px;
+    color: #c85a5a;
+  }
+  
+  .servicesTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .servicesTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

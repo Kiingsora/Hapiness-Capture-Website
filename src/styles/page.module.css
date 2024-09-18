@@ -1,0 +1,82 @@
+.mainPage {
+    color: #E9B1A2;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    margin: 1.5rem 0;
+    height: 2rem;
+    width: 100%;
+    position: absolute;
+}
+
+.websiteName{
+    width: 100%;
+    color: #E9B1A2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.websiteName h2{
+    position: absolute;
+    font-size: 3rem;
+    padding: 0.5rem;
+}
+
+.nav{
+    height: 2rem;
+    margin: 0 auto;
+}
+
+.navUl{
+    display: flex;
+    justify-content: space-evenly;
+    list-style: none;
+}
+
+.navUl li{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #DECB98;
+}
+
+.presentation {
+    height: 100vh;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: black;
+}
+
+.imgMargot{
+    width: 40rem;
+    height: 40rem;
+    border-radius: 50%;
+}
+
+.resume p{
+    font-size: 1.5rem;
+    text-align: left;
+}
+
+.vitrine {
+    height: 100vh;
+    padding: 2rem;
+}
+
+.imgVitrine img{
+    height: 30rem;
+    width: 30rem;
+}
+
+.footer{
+    background-color: black;
+    padding: 2rem;
+    bottom: 0;
+    width: 100%;   
+    height: 2rem;
+}
