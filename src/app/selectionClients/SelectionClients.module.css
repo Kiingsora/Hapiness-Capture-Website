@@ -1,16 +1,16 @@
 .PictureSelectionContainer {
-    padding: 4rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #f7f1e3;
-    min-height: 100vh;
+    max-height: 100vh;
   }
-  
+  /* now */
   .title {
     font-size: 2.5rem;
     color: #c85a5a;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
   
   .pictureList {
@@ -20,7 +20,7 @@
     width: 100%;
     overflow-x: auto; /* Permet le scroll horizontal */
     height: 43rem;
-    scrollbar-width: none; 
+    scrollbar-width:none; 
   }
   
   .pictureRow {
@@ -30,8 +30,8 @@
   }
   
   .picture {
-    width: 20rem;
-    height: 20rem;
+    width: 15rem;
+    height: 15rem;
     object-fit: cover;
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -71,4 +71,76 @@
   font-size: 1.5rem;
   color: #444;
   text-align: center;
+}
+
+.pictureItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkboxLabel {
+  margin-top: 5px;
+}
+
+.validateButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.validateButton:hover {
+  background-color: #0056b3;
+}
+
+.addButton, .removeButton {
+  margin-top: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.addButton {
+  background-color: #E9B1A2;
+  color: white;
+}
+
+.removeButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cart {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+.cart ul {
+  display: flex;
+}
+.cart li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.2rem;
+}
+
+.cartThumbnail {
+  width: 50px;
+  list-style: none;
+  height: 50px;
+  object-fit: cover;
+}
+
+.validateButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }

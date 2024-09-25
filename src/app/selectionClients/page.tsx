@@ -1,16 +1,67 @@
 "use client";
-import { useState, useEffect } from "react";
-import styles from "./SelectionClients.module.css";
-import Image from "next/image";
-import { useRouter } from "next/router";
 
-const isAuthenticated = true;
-interface Client {
-    email: string;
-    token: string;
-  };
-  
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import styles from "./SelectionClients.module.css";
+import CustomScrollbar from "@/components/CustomScrollBar";
+
+interface CartItem {
+  id: string;
+  url: string;
+}
+
 const pictures = [
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
+  "/assets/images/carrou1.jpg",
+  "/assets/images/carrou2.jpg",
+  "/assets/images/carrou3.jpg",
   "/assets/images/carrou1.jpg",
   "/assets/images/carrou2.jpg",
   "/assets/images/carrou3.jpg",
@@ -35,43 +86,68 @@ const pictures = [
 ];
 
 export default function PictureSelectionPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-    const [selectedPicture, setSelectedPicture] = useState<string | null>(null);
-    const router = useRouter();
-  
-    useEffect(() => {
-      const { token } = router.query;
-  
-      const verifyToken = async () => {
-        if (!token) {
-          setIsAuthenticated(false);
-          return;
-        }
-  
-        try {
-          const res = await fetch(`/api/clients/verify?token=${token}`);
-          const data = await res.json();
-  
-          if (res.ok && data.isValid) {
-            setIsAuthenticated(true);
-          } else {
-            setIsAuthenticated(false);
-          }
-        } catch (error) {
-          console.error('Erreur lors de la vérification du token:', error);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const token = searchParams.get('token');
+
+    const verifyToken = async () => {
+      if (!token) {
+        setIsAuthenticated(true);
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/clients/verify?token=${token}`);
+        const data = await res.json();
+
+        if (res.ok && data.isValid) {
+          setIsAuthenticated(true);
+        } else {
           setIsAuthenticated(false);
         }
-      };
+      } catch (error) {
+        console.error('Erreur lors de la vérification du token:', error);
+        setIsAuthenticated(false);
+      }
+    };
+
+    verifyToken();
+  }, [searchParams]);
+
+
+
+  const addToCart = (picture: string) => {
+    setCart(prevCart => {
+      if (prevCart.some(item => item.url === picture)) {
+        return prevCart;
+      }
+      return [...prevCart, { id: `${Date.now()}`, url: picture }];
+    });
+  };
+
+  const removeFromCart = (pictureUrl: string) => {
+    setCart(prevCart => prevCart.filter(item => item.url !== pictureUrl));
+  };
   
-      verifyToken();
-    }, [router.query]);
-  
+  const isInCart = (pictureUrl: string) => {
+    return cart.some(item => item.url === pictureUrl);
+  };
+
+  // Rendu pendant la vérification de l'authentification
   if (isAuthenticated === null) {
     return <p className={styles.loading}>Vérification en cours...</p>;
   }
 
+  // Rendu si le token est invalide ou expiré
   if (!isAuthenticated) {
-    return <p className={styles.error}>Accès restreint. Votre token est invalide ou expiré.</p>;
+    return (
+      <p className={styles.error}>
+        Accès restreint. Votre token est invalide ou expiré.
+      </p>
+    );
   }
 
   // Diviser les images en deux groupes
@@ -82,48 +158,77 @@ export default function PictureSelectionPage() {
   return (
     <div className={styles.PictureSelectionContainer}>
       <h1 className={styles.title}>Sélectionnez vos photos</h1>
-
+      
       <div className={styles.pictureList}>
+      <CustomScrollbar className={styles.pictureListContainer}>
         {/* Première ligne d'images */}
         <div className={styles.pictureRow}>
           {firstRowPictures.map((picture, index) => (
-            <img
-              key={index}
-              className={styles.picture}
-              src={picture}
-              alt={`Photo : ${index + 1}`}
-              onClick={() => setSelectedPicture(picture)}
-            />
+            <div key={index} className={styles.pictureItem}>
+              <img
+                className={styles.picture}
+                src={picture}
+                alt={`Photo : ${index + 1}`}
+                />
+              <button 
+                onClick={() => isInCart(picture) ? removeFromCart(picture) : addToCart(picture)}
+                className={isInCart(picture) ? styles.removeButton : styles.addButton}
+                >
+                {isInCart(picture) ? 'Retirer du panier' : 'Ajouter au panier'}
+              </button>
+            </div>
           ))}
+          
         </div>
 
         {/* Deuxième ligne d'images */}
         <div className={styles.pictureRow}>
           {secondRowPictures.map((picture, index) => (
-            <img
-              key={index + halfwayIndex} // Utilisation d'une clé unique pour chaque image
-              className={styles.picture}
-              src={picture}
-              alt={`Photo : ${index + 1 + halfwayIndex}`}
-              onClick={() => setSelectedPicture(picture)}
-            />
+            <div key={index + halfwayIndex} className={styles.pictureItem}>
+              <img
+                className={styles.picture}
+                src={picture}
+                alt={`Photo : ${index + 1 + halfwayIndex}`}
+                />
+              <button 
+                onClick={() => isInCart(picture) ? removeFromCart(picture) : addToCart(picture)}
+                className={isInCart(picture) ? styles.removeButton : styles.addButton}
+                >
+                {isInCart(picture) ? 'Retirer du panier' : 'Ajouter au panier'}
+              </button>
+            </div>
           ))}
         </div>
+      </CustomScrollbar>
       </div>
 
-      {/* Affichage de la photo agrandie */}
-      {selectedPicture && (
-        <div
-          className={styles.containerEnlarged}
-          onClick={() => setSelectedPicture(null)}
-        >
-          <img
-            src={selectedPicture}
-            alt="Agrandissement"
-            className={styles.enlargedPicture}
-          />
-        </div>
-      )}
+
+      <div className={styles.cart}>
+        <h2>Votre panier</h2>
+        {cart.length === 0 ? (
+          <p>Votre panier est vide</p>
+        ) : (
+          <ul>
+            {cart.map(item => (
+              <li key={item.id}>
+                <img src={item.url} alt="Photo dans le panier" className={styles.cartThumbnail} />
+                <button onClick={() => removeFromCart(item.url)} className={styles.removeButton}>
+                  Retirer
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* Bouton pour valider le panier */}
+      <button 
+        onClick={() => console.log('Photos dans le panier:', cart)}
+        className={styles.validateButton}
+        disabled={cart.length === 0}
+      >
+        Valider le panier ({cart.length} photo{cart.length > 1 ? 's' : ''})
+      </button>
     </div>
   );
 }

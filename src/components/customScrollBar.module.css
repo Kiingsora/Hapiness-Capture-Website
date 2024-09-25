@@ -1,0 +1,24 @@
+.customScrollbar {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;  
+}
+
+.customScrollbar::-webkit-scrollbar {
+  height: 3rem;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: transparent;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image:url("~/public/assets/images/scrollIcon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+
