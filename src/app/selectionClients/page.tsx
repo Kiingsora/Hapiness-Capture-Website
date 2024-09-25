@@ -88,6 +88,7 @@ const pictures = [
 export default function PictureSelectionPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [enlargedPicture, setEnlargedPicture] = useState<string | null>(null);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -136,6 +137,10 @@ export default function PictureSelectionPage() {
     return cart.some(item => item.url === pictureUrl);
   };
 
+  const enlargePicture = (picture: string) => {
+    setEnlargedPicture(picture);
+  };
+
   // Rendu pendant la vérification de l'authentification
   if (isAuthenticated === null) {
     return <p className={styles.loading}>Vérification en cours...</p>;
@@ -169,6 +174,7 @@ export default function PictureSelectionPage() {
                 className={styles.picture}
                 src={picture}
                 alt={`Photo : ${index + 1}`}
+                onClick={() => enlargePicture(picture)}
                 />
               <button 
                 onClick={() => isInCart(picture) ? removeFromCart(picture) : addToCart(picture)}
@@ -178,7 +184,6 @@ export default function PictureSelectionPage() {
               </button>
             </div>
           ))}
-          
         </div>
 
         {/* Deuxième ligne d'images */}
@@ -189,6 +194,7 @@ export default function PictureSelectionPage() {
                 className={styles.picture}
                 src={picture}
                 alt={`Photo : ${index + 1 + halfwayIndex}`}
+                onClick={() => enlargePicture(picture)}
                 />
               <button 
                 onClick={() => isInCart(picture) ? removeFromCart(picture) : addToCart(picture)}
@@ -202,7 +208,13 @@ export default function PictureSelectionPage() {
       </CustomScrollbar>
       </div>
 
-
+      {/* Affichage de l'image agrandie */}
+      {enlargedPicture && (
+        <div className={styles.containerEnlarged} onClick={() => setEnlargedPicture(null)}>
+          <img src={enlargedPicture} alt="Photo agrandie" className={styles.enlargedPicture} />
+        </div>
+      )}
+      
       <div className={styles.cart}>
         <h2>Votre panier</h2>
         {cart.length === 0 ? (
